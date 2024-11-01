@@ -1,5 +1,4 @@
 // put e2e + CT common commands here
-
 import 'cypress-map'
 
 Cypress.Commands.add('getByCy', (selector, ...args) =>
