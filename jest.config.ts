@@ -31,9 +31,7 @@ export const config: JestConfigWithTsJest = {
   },
   moduleDirectories: ['node_modules', 'src'],
   modulePathIgnorePatterns: ['dist'],
-  transform: {
-    '^.+\\.(ts|tsx)$': ['ts-jest', {tsconfig: 'tsconfig.jest.json'}],
-  },
+  transform: transform(),
   testMatch: ['**/*.test.ts*'],
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'], // runs before each test file
@@ -45,3 +43,32 @@ export const config: JestConfigWithTsJest = {
 }
 
 export default config
+
+export function transform(): JestConfigWithTsJest['transform'] {
+  return {
+    '^.+\\.(ts|tsx)$': [
+      'ts-jest',
+      {
+        tsconfig: 'tsconfig.jest.json',
+        diagnostics: {
+          ignoreCodes: [1343], // Ignore TypeScript error code for import.meta
+        },
+        astTransformers: {
+          before: [
+            {
+              path: 'ts-jest-mock-import-meta',
+              options: {
+                metaObjectReplacement: {
+                  env: {
+                    VITE_API_URL: 'http://localhost:3001',
+                    VITE_PORT: '3000',
+                  },
+                },
+              },
+            },
+          ],
+        },
+      },
+    ],
+  }
+}
