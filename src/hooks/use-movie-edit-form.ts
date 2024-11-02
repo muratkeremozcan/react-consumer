@@ -1,22 +1,24 @@
-import {useAddMovie} from '@hooks/use-movies'
 import {useState} from 'react'
-import {CreateMovieSchema} from '@provider-schema/schema'
+import {useUpdateMovie} from '@hooks/use-movies'
+import {UpdateMovieSchema} from '@provider-schema/schema'
 import type {ZodError} from 'zod'
+import type {Movie} from 'src/consumer'
 
-export function useMovieForm() {
-  const [movieName, setMovieName] = useState('')
-  const [movieYear, setMovieYear] = useState(2023)
-  const [movieRating, setMovieRating] = useState(0)
+export function useMovieEditForm(initialMovie: Movie) {
+  const [movieName, setMovieName] = useState(initialMovie.name)
+  const [movieYear, setMovieYear] = useState(initialMovie.year)
+  const [movieRating, setMovieRating] = useState(initialMovie.rating)
   const [validationError, setValidationError] = useState<ZodError | null>(null)
 
-  const {status, mutate} = useAddMovie()
+  const {status, mutate} = useUpdateMovie()
   const movieLoading = status === 'pending'
 
   // Zod Key feature 3: safeParse
   // Zod note: if you have a frontend, you can use the schema + safeParse there
   // in order to perform form validation before sending the data to the server
-  const handleAddMovie = () => {
-    const result = CreateMovieSchema.safeParse({
+
+  const handleUpdateMovie = () => {
+    const result = UpdateMovieSchema.safeParse({
       name: movieName,
       year: movieYear,
       rating: movieRating,
@@ -29,10 +31,14 @@ export function useMovieForm() {
       return
     }
 
-    mutate({name: movieName, year: movieYear, rating: movieRating})
-    setMovieName('')
-    setMovieYear(2023)
-    setMovieRating(0)
+    mutate({
+      id: initialMovie.id,
+      movie: {
+        name: movieName,
+        year: movieYear,
+        rating: movieRating,
+      },
+    })
     setValidationError(null)
   }
 
@@ -43,8 +49,8 @@ export function useMovieForm() {
     setMovieName,
     setMovieYear,
     setMovieRating,
-    handleAddMovie,
+    handleUpdateMovie,
     movieLoading,
-    validationError, // for Zod key feature 4: expose the validation state
+    validationError,
   }
 }

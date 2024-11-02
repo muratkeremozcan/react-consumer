@@ -1,10 +1,16 @@
 import styled from 'styled-components'
-import MovieInput from './movie-input'
-import ValidationErrorDisplay from '@components/validation-error-display'
-import {useMovieForm} from '@hooks/use-movie-form'
+import {useMovieEditForm} from '@hooks/use-movie-edit-form'
 import {SButton} from '@styles/styled-components'
+import type {Movie} from 'src/consumer'
+import ValidationErrorDisplay from '@components/validation-error-display'
+import {MovieInput} from '@components/movie-form'
 
-export default function MovieForm() {
+type MovieEditFormProps = Readonly<{
+  movie: Movie
+  onCancel: () => void
+}>
+
+export default function MovieEditForm({movie, onCancel}: MovieEditFormProps) {
   const {
     movieName,
     setMovieName,
@@ -12,16 +18,15 @@ export default function MovieForm() {
     setMovieYear,
     movieRating,
     setMovieRating,
-    handleAddMovie,
+    handleUpdateMovie,
     movieLoading,
     validationError,
-  } = useMovieForm()
+  } = useMovieEditForm(movie)
 
   return (
-    <div data-cy="movie-form-comp">
-      <SSubtitle>Add a New Movie</SSubtitle>
+    <div data-cy="movie-edit-form-comp">
+      <SSubtitle>Edit Movie</SSubtitle>
 
-      {/* Zod key feature 4: use the validation state at the component  */}
       <ValidationErrorDisplay validationError={validationError} />
 
       <MovieInput
@@ -43,11 +48,14 @@ export default function MovieForm() {
         onChange={e => setMovieRating(Number(e.target.value))}
       />
       <SButton
-        data-cy="add-movie-button"
-        onClick={handleAddMovie}
+        data-cy="update-movie"
+        onClick={handleUpdateMovie}
         disabled={movieLoading}
       >
-        {movieLoading ? 'Adding...' : 'Add Movie'}
+        {movieLoading ? 'Updating...' : 'Update Movie'}
+      </SButton>
+      <SButton data-cy="cancel" onClick={onCancel}>
+        Cancel
       </SButton>
     </div>
   )
