@@ -132,6 +132,4 @@ jobs:
           # group: ct-tests
           # tag: ct-tests
         env:
-          # if you want to enable parallelization
-          # CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
