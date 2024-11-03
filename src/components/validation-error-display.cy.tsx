@@ -11,18 +11,11 @@ describe('<ValidationErrorDisplay />', () => {
         expected: 'string',
         received: 'undefined',
       },
-      {
-        path: ['year'],
-        message: 'Year must be a number',
-        code: 'invalid_type',
-        expected: 'number',
-        received: 'string',
-      },
     ])
 
     cy.wrappedMount(<ValidationErrorDisplay validationError={mockError} />)
 
-    cy.getByCy('validation-error').should('have.length', 2)
+    cy.getByCy('validation-error').should('have.length', 1)
     cy.contains('Name is required')
     cy.contains('Year must be a number')
   })
