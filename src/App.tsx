@@ -1,31 +1,26 @@
-import {useState} from 'react'
-import './App.css'
+import {useDeleteMovie, useMovies} from '@hooks/use-movies'
+import {SAppContainer} from '@styles/styled-components'
+import LoadingMessage from '@components/loading-message'
+import {Suspense} from 'react'
+import {ErrorBoundary} from 'react-error-boundary'
+import ErrorComponent from '@components/error-component'
+import AppRoutes from './App-routes'
+import type {Movie} from './consumer'
 
 export default function App() {
-  const [count, setCount] = useState(0)
+  const {data} = useMovies()
+  const moviesData = (data as unknown as {data: Movie[]}).data
+
+  const deleteMovieMutation = useDeleteMovie()
+  const handleDeleteMovie = deleteMovieMutation.mutate
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src="/react.svg" className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button data-cy="count" onClick={() => setCount(count => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+    <ErrorBoundary fallback={<ErrorComponent />}>
+      <Suspense fallback={<LoadingMessage />}>
+        <SAppContainer>
+          <AppRoutes movies={moviesData} onDelete={handleDeleteMovie} />
+        </SAppContainer>
+      </Suspense>
+    </ErrorBoundary>
   )
 }

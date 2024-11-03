@@ -14,7 +14,7 @@ export default function MovieDetails() {
 
   const handleDeleteMovie = (id: number) =>
     deleteMovieMutation.mutate(id, {
-      onSuccess: () => navigate('/movies'),
+      onSuccess: () => navigate('/movies'), // Redirect to /movies after delete success
     })
 
   if (!hasIdentifier) return <p>No movie selected</p>
@@ -24,7 +24,7 @@ export default function MovieDetails() {
   const movieError = (data as unknown as {error: ErrorResponse}).error?.error
 
   return (
-    <SMovieDetails data-cy="movie-detail-component">
+    <SMovieDetails data-cy="movie-details-comp">
       <STitle>Movie Details</STitle>
 
       {movieData && 'name' in movieData ? (
