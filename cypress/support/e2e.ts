@@ -1,4 +1,29 @@
+import type {Movie} from '../../src/consumer'
 import './commands'
-import 'cypress-map'
+import './get-token'
 import '@bahmutov/cy-api'
-// import 'cypress-data-session' // when you begin using data-session...
+
+const commonHeaders = (token: string) => ({
+  Authorization: token,
+})
+
+Cypress.Commands.add(
+  'addMovie',
+  (
+    body: Omit<Movie, 'id'>,
+    baseUrl = Cypress.env('VITE_API_URL'),
+    allowedToFail = false,
+  ) => {
+    cy.log('**addMovie**')
+    return cy.maybeGetToken('token-session').then(token =>
+      cy.request({
+        method: 'POST',
+        url: `${baseUrl}/movies`,
+        body,
+        headers: commonHeaders(token),
+        retryOnStatusCodeFailure: !allowedToFail,
+        failOnStatusCode: !allowedToFail,
+      }),
+    )
+  },
+)
