@@ -55,6 +55,12 @@ describe('Movies API', () => {
     rating: 8.5,
   }
 
+  const propMatcherNoId = (movieEntity: Movie | Omit<Movie, 'id'>) => ({
+    name: string(movieEntity.name),
+    year: integer(movieEntity.year),
+    rating: decimal(movieEntity.rating),
+  })
+
   describe('When a GET request is made to /movies', () => {
     it('should return all movies', async () => {
       // we want to ensure at least 1 movie is returned in the array of movies
@@ -121,9 +127,7 @@ describe('Movies API', () => {
             status: 200,
             data: {
               id: integer(movieWithId.id),
-              name: string(movieWithId.name),
-              year: integer(movieWithId.year),
-              rating: decimal(movieWithId.rating),
+              ...propMatcherNoId(movieWithId),
             },
           }),
         )
@@ -166,9 +170,7 @@ describe('Movies API', () => {
             status: 200,
             data: {
               id: integer(testId),
-              name: string(movieWithTestId100.name),
-              year: integer(movieWithTestId100.year),
-              rating: decimal(movieWithTestId100.rating),
+              ...propMatcherNoId(movieWithTestId100),
             },
           }),
         )
@@ -194,9 +196,7 @@ describe('Movies API', () => {
             status: 200,
             data: {
               id: integer(), // if the example value is omitted, a random number is used
-              name: string(movieWithoutId.name),
-              year: integer(movieWithoutId.year),
-              rating: decimal(movieWithoutId.rating),
+              ...propMatcherNoId(movieWithoutId),
             },
           }),
         )
@@ -266,9 +266,7 @@ describe('Movies API', () => {
             status: 200,
             data: {
               id: integer(testId),
-              name: updatedMovieData.name,
-              year: updatedMovieData.year,
-              rating: updatedMovieData.rating,
+              ...propMatcherNoId(updatedMovieData),
             },
           }),
         )
