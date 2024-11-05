@@ -3,13 +3,14 @@ import {addMovie} from '@support/helpers/add-movie'
 import {editMovie} from '@support/helpers/edit-movie'
 
 describe('movie crud e2e', () => {
-  const {name, year, rating} = generateMovie()
+  const {name, year, rating, director} = generateMovie()
   const id = 1
   const movie = {id, name, year, rating}
   const {
     name: editedName,
     year: editedYear,
     rating: editedRating,
+    director: editedDirector,
   } = generateMovie()
 
   it('should add a movie', () => {
@@ -17,7 +18,7 @@ describe('movie crud e2e', () => {
     cy.visit('/')
     cy.wait('@noMovies')
 
-    addMovie(name, year, rating)
+    addMovie(name, year, rating, director)
 
     cy.intercept('POST', '/movies', {body: movie}).as('addMovie')
     cy.intercept('GET', '**/movies', {body: {data: [movie]}}).as('getMovies')
@@ -43,10 +44,11 @@ describe('movie crud e2e', () => {
         name: editedName,
         year: editedYear,
         rating: editedRating,
+        director: editedDirector,
       },
     }).as('updateMovieById')
 
-    editMovie(editedName, editedYear, editedRating)
+    editMovie(editedName, editedYear, editedRating, editedDirector)
     cy.getByCy('movie-input-comp-text').should('have.attr', 'value', editedName)
 
     cy.wait('@updateMovieById')

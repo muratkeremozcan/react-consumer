@@ -27,8 +27,8 @@ describe('movie crud e2e', () => {
 
   it('should add and delete a movie from movie list', () => {
     cy.log('**add a movie**')
-    const {name, year, rating} = generateMovie()
-    addMovie(name, year, rating)
+    const {name, year, rating, director} = generateMovie()
+    addMovie(name, year, rating, director)
 
     cy.intercept('POST', '/movies').as('addMovie')
     cy.getByCy('add-movie-button').click()
@@ -43,6 +43,7 @@ describe('movie crud e2e', () => {
               name,
               year: spok.number,
               rating: spok.number,
+              director: spok.string,
             },
           },
         }),
@@ -63,21 +64,22 @@ describe('movie crud e2e', () => {
   })
 
   it('should update and delete a movie at movie manager', () => {
-    const {name, year, rating} = generateMovie()
+    const {name, year, rating, director} = generateMovie()
     const {
       name: editedName,
       year: editedYear,
       rating: editedRating,
+      director: editedDirector,
     } = generateMovie()
 
-    cy.addMovie({name, year, rating})
+    cy.addMovie({name, year, rating, director})
       .its('body.data.id')
       .then(id => {
         cy.log('**direct-nav by id**')
 
         cy.visit(`/movies/${id}`)
 
-        editMovie(editedName, editedYear, editedRating)
+        editMovie(editedName, editedYear, editedRating, editedDirector)
 
         cy.log('**check on the movie list**')
         cy.getByCy('back').click()
