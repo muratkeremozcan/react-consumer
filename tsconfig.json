@@ -8,9 +8,21 @@
     "vite.config.ts",
     "vite-env.d.ts",
     "cypress",
-    "cypress.d.ts"
+    "cypress.d.ts",
+    "pw",
+    "playwright-ct.config.ts",
+    "playwright/index.tsx",
+    "vitest.config.ts",
+    "vitest.headless.config.ts",
+    "vitest.browser.config.ts"
   ],
-  "exclude": ["node_modules", "coverage", "dist", "**/*.*test.ts*"],
+  "exclude": [
+    "node_modules",
+    "coverage",
+    "dist",
+    "**/*.*test.ts*",
+    "playwright-report"
+  ],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
     /* Projects */
@@ -43,9 +55,11 @@
       "@hooks/*": ["./src/hooks/*"],
       "@styles/*": ["./src/styles/*"],
       "@cypress/*": ["./cypress/*"],
+      "@pw/*": ["./pw/*"],
       "@support/*": ["./cypress/support/*"],
       "@fixtures/*": ["./cypress/fixtures/*"],
-      "@provider-schema/*": ["./src/provider-schema/*"]
+      "@provider-schema/*": ["./src/provider-schema/*"],
+      "@vitest-utils/*": ["./src/test-utils/vitest-utils/*"]
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */
