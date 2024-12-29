@@ -23,3 +23,12 @@ npm-debug.log*
 
 # Pact
 pacts
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Vitest UI
+__screenshots__
