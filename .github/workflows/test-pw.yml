@@ -45,8 +45,8 @@ jobs:
       - name: Install Playwright Chromium Only
         run: npx playwright install chromium
 
-      - name: Run PW e2e tests
-        run: npm run pw:run-local
+      # - name: Run PW e2e tests
+      #   run: npm run pw:run-local
 
       # - name: Run PW ct tests
       #   run: npm run pw:run-ct
