@@ -2,7 +2,6 @@ import {test, expect} from '@playwright/experimental-ct-react'
 import type {MountResult} from '@playwright/experimental-ct-react'
 import MovieForm from './movie-form'
 import {generateMovie} from '@cypress/support/factories'
-import type {Movie} from 'src/consumer'
 import {interceptNetworkCall} from '@pw/support/utils/network'
 
 test.describe('<MovieForm />', () => {
@@ -20,7 +19,6 @@ test.describe('<MovieForm />', () => {
 
   test('should fill the form and add the movie', async ({mount, page}) => {
     const {name, year, rating, director} = generateMovie()
-    const movie: Omit<Movie, 'id'> = {name, year, rating, director}
 
     const c = await mount(<MovieForm />)
     await fillName(c, name)
