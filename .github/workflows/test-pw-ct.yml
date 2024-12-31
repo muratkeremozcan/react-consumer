@@ -1,4 +1,4 @@
-name: Run e2e & ct with pw
+name: Run ct with pw
 on:
   push:
   workflow_dispatch:
@@ -15,7 +15,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  pw-e2e-test:
+  pw-ct:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
@@ -44,9 +44,6 @@ jobs:
 
       - name: Install Playwright Chromium Only
         run: npx playwright install chromium
-
-      - name: Run PW e2e tests
-        run: npm run pw:run-local
 
       - name: Run PW ct tests
         run: npm run pw:run-ct

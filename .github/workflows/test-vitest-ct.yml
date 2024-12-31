@@ -15,7 +15,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  vitest-component-test:
+  vitest-ct:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:

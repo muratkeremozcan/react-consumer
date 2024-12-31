@@ -1,4 +1,4 @@
-name: Run e2e & ct with cy
+name: Run e2e with cy
 on:
   push:
   workflow_dispatch:
@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  cy-e2e-test:
+  cy-e2e:
     # if you want to enable parallelization
     # strategy:
     #   fail-fast: false
@@ -40,27 +40,3 @@ jobs:
           # parallel: true
           # group: e2e-tests
           # tag: e2e-tests
-
-  cy-ct-test:
-    # if you want to enable parallelization
-    # strategy:
-    #   fail-fast: false
-    #   matrix:
-    #     machines: [1, 2]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Cypress component tests
-        uses: cypress-io/github-action@v6.7.8
-        with:
-          component: true
-          browser: chrome
-          config-file: cypress/config/local.config.ts
-          # if you want to enable parallelization
-          # record: true
-          # parallel: true
-          # group: ct-tests
-          # tag: ct-tests
