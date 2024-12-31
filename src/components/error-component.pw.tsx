@@ -3,8 +3,8 @@ import ErrorComp from './error-component'
 
 test.describe('<ErrorComponent />', () => {
   test('should render an error message', async ({mount}) => {
-    const component = await mount(<ErrorComp />)
-    await expect(component.getByTestId('error')).toBeVisible()
-    await expect(component.locator('p')).toHaveText('Try reloading the page.')
+    const c = await mount(<ErrorComp />)
+    await expect(c.getByTestId('error')).toBeVisible()
+    await expect(c.locator('p')).toHaveText('Try reloading the page.')
   })
 })
