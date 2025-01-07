@@ -47,8 +47,8 @@ test.describe('<MovieInput>', () => {
     )
 
     const input = c.getByPlaceholder('place holder')
-    expect(input).toBeVisible()
-    expect(input).toHaveValue(String(year))
+    await expect(input).toBeVisible()
+    await expect(input).toHaveValue(String(year))
 
     // PW is in beta
     // await input.fill('1') // enabling this fails the test
