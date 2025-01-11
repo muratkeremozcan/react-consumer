@@ -102,7 +102,7 @@ describe('<MovieDetails />', () => {
 
     wrappedRender(<MovieDetails />, {
       route,
-      path: `movies`,
+      path: '/movies',
     })
 
     await waitFor(() => {
